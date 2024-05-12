@@ -27,7 +27,8 @@ arduino.on('open', () => {
 });
 
 rl.on('line', (line) => {
-  console.log('Recebido:', line);
+  console.log('Nível da aproximação:', ((line * 100) / 138).toFixed(2));
+
   
   // Objeto para representar os dados recebidos
   const data = {
