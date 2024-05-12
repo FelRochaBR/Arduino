@@ -38,7 +38,7 @@ function inserirDadosDoJson(filename) {
           if (error) {
             console.error('Erro ao inserir dados:', error);
           } else {
-            console.log('Dados inseridos com sucesso!');
+            console.log('Dados inseridos com sucesso no Banco MySql!');
           }
         });
       });
