@@ -31,7 +31,7 @@ rl.on('line', (line) => {
   
   // Objeto para representar os dados recebidos
   const data = {
-    timestamp: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''), // Formata o timestamp para exibir apenas data e hora
+    timestamp: new Date().toISOString().replace(/T/, '  ').replace(/\..+/, ' '), // Formata o timestamp para exibir apenas data e hora
     value: line.trim() // Remove espaços em branco extras e atribui o valor recebido
   };
 
