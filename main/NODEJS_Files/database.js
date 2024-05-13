@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'acelera2024'
+  database: 'arduino'
 });
 
 // Mantenha a conexão com o banco de dados aberta
