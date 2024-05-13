@@ -159,6 +159,9 @@ if(isset($_POST['submit'])){
     // Inserir os dados na tabela
     $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,senha,cargo) 
     VALUES ('$nome','$email','$senha_hash','$cargo')");
+    
 }
+
 ?>
+
 
