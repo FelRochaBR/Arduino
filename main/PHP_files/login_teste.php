@@ -1,28 +1,34 @@
 <?php
-    session_start();
-    //print_r($_REQUEST);
-    if(isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])){
-        include_once('config.php');
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
+session_start();
 
-        $sql= "SELECT * FROM usuarios WHERE email = '$email' and senha = '$senha'";
+if(isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])){
+    include_once('config.php');
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-        $result = $conexao->query($sql);
+    $sql= "SELECT * FROM usuarios WHERE email = '$email'";
 
-        if(mysqli_num_rows($result) < 1){
+    $result = $conexao->query($sql);
+
+    if(mysqli_num_rows($result) < 1){
+        unset($_SESSION['email']);
+        unset($_SESSION['senha']);
+        header('Location: introducao.php');
+    }
+    else{
+        $row = $result->fetch_assoc();
+        if(password_verify($senha, $row['senha'])){
+            $_SESSION['email'] = $email;
+            $_SESSION['senha'] = $senha;
+            header('Location: sistema.php');
+        } else {
             unset($_SESSION['email']);
             unset($_SESSION['senha']);
             header('Location: introducao.php');
         }
-        else{
-            $_SESSION['email'] = $email;
-            $_SESSION['senha'] = $senha;
-            header('Location: sistema.php');
-        }
     }
-    else{
-        header('Location: introducao.php');
-    }
-
+}
+else{
+    header('Location: introducao.php');
+}
 ?>

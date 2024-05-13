@@ -153,7 +153,12 @@ if(isset($_POST['submit'])){
     $senha = $_POST['senha'];
     $cargo = $_POST['cargo'];
    
+    // Criptografar a senha
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+    
+    // Inserir os dados na tabela
     $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,senha,cargo) 
-    VALUES ('$nome','$email','$senha','$cargo')");
+    VALUES ('$nome','$email','$senha_hash','$cargo')");
 }
 ?>
+
