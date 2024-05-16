@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #423953;
         }
         .dashboard {
             display: flex;
@@ -36,10 +36,14 @@
             color: #fff;
             text-decoration: none;
         }
+        .options ul li a:hover {
+            color: rgb(130, 130, 255);
+            
+        }
         .container {
             flex: 1; /* Ocupa todo o espaço restante */
             padding: 100px; /* Ajuste o preenchimento conforme necessário */
-            background-color: rgba(0, 0, 0, 0.5);
+            color:white;
             border-radius: 10px;
             margin: 100px; /* Espaçamento entre o container e a borda da tela */
         }
