@@ -60,11 +60,14 @@
                 <li><a href="introducao.php">Sair</a></li>
             </ul>
         </div>
-        <div class="container">
-            <!-- Conteúdo da dashboard vai aqui -->
-            <h2>Bem-vindo à Dashboard</h2>
-            <p>Selecione uma opção no painel à esquerda.</p>
-        </div>
+     
+        <form action="#" method="POST">
+        <input class="inputSubmit" type="submit" name="submit" value="Ligar">
+    </form>
+        <form action="#" method="POST">
+        <input class="inputSubmit" type="submit" name="submit" value="Desligar">
+    </form>
+           
     </div>
 </body>
 </html>
