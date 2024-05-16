@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #423953;
+            background-color: #f5f5f5;
         }
         .dashboard {
             display: flex;
