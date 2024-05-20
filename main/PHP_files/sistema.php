@@ -114,6 +114,17 @@
             flex-direction: column;
             align-items: center;
         }
+        .container2 {
+            flex: 2;
+            background-color:  rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .button-container {
             display: flex;
             justify-content: center;
