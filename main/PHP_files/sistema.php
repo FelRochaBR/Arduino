@@ -151,7 +151,7 @@
                     <form action="start_node_server.php" method="POST">
                         <input class="inputSubmit_on" type="submit" name="submit" value="Ligar">
                     </form>
-                    <form action="#" method="POST">
+                    <form action="stop_node_server.php" method="POST">
                         <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
                     </form>
                 </div>

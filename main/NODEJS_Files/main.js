@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*", // Allow all origins (adjust if needed)
+    origin: "*", // Permitir todas as origens (ajuste conforme necessário)
     methods: ["GET", "POST"]
   }
 });
@@ -52,7 +52,17 @@ rl.on('line', (line) => {
     } else {
       console.log('Dados gravados com sucesso!');
       inserirDadosDoJson(filename);
-      io.emit('data', data); // Emit data to clients
+      io.emit('data', data); // Emitir dados para os clientes
     }
   });
+});
+
+// Rota para parar o servidor
+app.get('/parar', (req, res) => {
+  console.log('Recebida solicitação para parar o servidor');
+  server.close(() => {
+    console.log('Servidor parado');
+    process.exit(0);
+  });
+  res.send('Servidor sendo encerrado...');
 });
