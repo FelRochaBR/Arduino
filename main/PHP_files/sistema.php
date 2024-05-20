@@ -24,6 +24,17 @@
           ['Sono',    7]
         ]);
 
+        var data3 = google.visualization.arrayToDataTable([
+          ['Tempo', 'Trabalho', 'Lazer', 'Comer', 'TV', 'Sono'],
+          ['Segunda', 8, 2, 2, 2, 10],
+          ['Terça', 7, 3, 2, 1, 11],
+          ['Quarta', 8, 2, 3, 1, 10],
+          ['Quinta', 7, 2, 2, 2, 11],
+          ['Sexta', 8, 2, 2, 1, 11],
+          ['Sábado', 9, 1, 1, 2, 11],
+          ['Domingo', 9, 1, 1, 2, 11]
+        ]);
+
         var options1 = {
           width: 400, height: 120,
           redFrom: 90, redTo: 100,
@@ -35,12 +46,21 @@
           title: 'Distribuição do Tempo',
           pieHole: 0.4,
         };
+
+        var options3 = {
+          title: 'Uso do Tempo por Dia',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
  
         var chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
         chart1.draw(data1, options1);
 
         var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
         chart2.draw(data2, options2);
+
+        var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
+        chart3.draw(data3, options3);
       }
     </script>
     <title>Dashboard</title>
@@ -148,7 +168,14 @@
                 </form>
             </div>
             <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
-            <div class="chart" id='chart_div2'></div> <!-- Adicionado o segundo gráfico -->
+        </div>
+        <div class="container">
+            <div class="chart" id='chart_div3'></div> <!-- Adicionado o terceiro gráfico -->
+        </div>
+        <div class="container">
+            <form action="#" method="POST">
+                <div class="chart" id='chart_div2'></div> <!-- Adicionado o segundo gráfico -->
+            </form>
         </div>
     </div>
 </body>
