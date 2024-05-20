@@ -17,7 +17,7 @@ server.listen(3002, () => {
 });
 
 const readline = require('readline');
-const arduino = new SerialPort({ path: 'COM3', baudRate: 9600 });
+const arduino = new SerialPort({ path: 'COM4', baudRate: 9600 });
 const rl = readline.createInterface({ input: arduino });
 arduino.on('open', () => {
   console.log('Conexão Serial Iniciada');

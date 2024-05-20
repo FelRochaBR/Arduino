@@ -74,16 +74,19 @@
         .dashboard {
             display: flex;
             height: 100vh;
-            width: 80%; /* Aumentei o tamanho do dashboard para acomodar o novo gráfico */
-            position: relative;
         }
         .options {
             width: 200px;
-            background-color:  rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
             padding: 20px;
             border-radius: 10px;
             margin: 20px;
+            height: calc(100vh - 10px);
+            box-sizing: border-box;
+            line-height: 1.5em;
+            
+        
         }
         .options ul {
             list-style-type: none;
@@ -103,13 +106,18 @@
         .options ul li a:hover {
             color: rgb(130, 130, 255);
         }
-        .container {
+        .containers {
+            display: flex;
+            flex-direction: column;
             flex: 1;
-            background-color:  rgba(0, 0, 0, 0.5);
+            margin: 20px;
+        }
+        .container, .container1, .container2 {
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 10px;
-            margin: 20px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -117,7 +125,7 @@
         .button-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 1cm; /* Espaço de 1cm abaixo dos botões */
+            margin-bottom: 20px; /* Espaço de 20px abaixo dos botões */
         }
         .inputSubmit_on, .inputSubmit_off {
             background-color: #2980b9;
@@ -128,12 +136,12 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            margin: 0 0.2cm; 
+            margin: 0 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 40;
+            width: 120px; 
+            border-radius: 90px;
         }
-        .inputSubmit_on
-        {
+        .inputSubmit_on {
             background-color: blue;
         }
         .inputSubmit_off {
@@ -158,24 +166,24 @@
                 <li><a href="introducao.php">Sair</a></li>
             </ul>
         </div>
-        <div class="container">
-            <div class="button-container">
-                <form action="#" method="POST">
-                    <input class="inputSubmit_on" type="submit" name="submit" value="Ligar">
-                </form>
-                <form action="#" method="POST">
-                    <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
-                </form>
+        <div class="containers">
+            <div class="container">
+                <div class="button-container">
+                    <form action="#" method="POST">
+                        <input class="inputSubmit_on" type="submit" name="submit" value="Ligar">
+                    </form>
+                    <form action="#" method="POST">
+                        <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
+                    </form>
+                </div>
+                <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
             </div>
-            <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
-        </div>
-        <div class="container">
-            <div class="chart" id='chart_div3'></div> <!-- Adicionado o terceiro gráfico -->
-        </div>
-        <div class="container">
-            <form action="#" method="POST">
+            <div class="container1">
+                <div class="chart" id='chart_div3'></div> <!-- Adicionado o terceiro gráfico -->
+            </div>
+            <div class="container2">
                 <div class="chart" id='chart_div2'></div> <!-- Adicionado o segundo gráfico -->
-            </form>
+            </div>
         </div>
     </div>
 </body>
