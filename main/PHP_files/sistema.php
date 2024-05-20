@@ -5,25 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <script type='text/javascript'>
-      google.load('visualization', '1', {packages:['gauge']});
+      google.load('visualization', '1', {packages:['gauge', 'corechart']}); // Adicionado 'corechart'
       google.setOnLoadCallback(drawChart);
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
+        var data1 = google.visualization.arrayToDataTable([
           ['Rótulo', 'Valor'],
           ['Motor', 10],
           ['N.Água', 10],
           ['Rede', 68]
         ]);
- 
-        var options = {
+
+        var data2 = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Trabalho',     11],
+          ['Lazer',      2],
+          ['Comer',  2],
+          ['TV', 2],
+          ['Sono',    7]
+        ]);
+
+        var options1 = {
           width: 400, height: 120,
           redFrom: 90, redTo: 100,
           yellowFrom:75, yellowTo: 90,
           minorTicks: 5
         };
+
+        var options2 = {
+          title: 'Distribuição do Tempo',
+          pieHole: 0.4,
+        };
  
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-        chart.draw(data, options);
+        var chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
+        chart1.draw(data1, options1);
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, options2);
       }
     </script>
     <title>Dashboard</title>
@@ -37,9 +54,8 @@
         .dashboard {
             display: flex;
             height: 100vh;
-            width: 50%;
+            width: 80%; /* Aumentei o tamanho do dashboard para acomodar o novo gráfico */
             position: relative;
-
         }
         .options {
             width: 200px;
@@ -47,7 +63,7 @@
             color: #fff;
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 1cm; /* Espaço de 1cm abaixo dos botões */
+            margin: 20px;
         }
         .options ul {
             list-style-type: none;
@@ -106,6 +122,9 @@
         .inputSubmit_on:hover, .inputSubmit_off:hover {
             background-color: rgb(130, 130, 255);
         }
+        .chart {
+            margin-top: 20px; /* Espaço entre os gráficos */
+        }
     </style>
 </head>
 <body>
@@ -128,7 +147,8 @@
                     <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
                 </form>
             </div>
-            <div id='chart_div'></div>
+            <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
+            <div class="chart" id='chart_div2'></div> <!-- Adicionado o segundo gráfico -->
         </div>
     </div>
 </body>
