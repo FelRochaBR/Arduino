@@ -32,7 +32,14 @@
 
       function updateChart1(value) {
         data1.setValue(0, 1, value);
-        chart1.draw(data1);
+        chart1.draw(data1,options2);
+        chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
+        var options2 = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom: 75, yellowTo: 90,
+          minorTicks: 5
+        };
       }
 
       document.addEventListener("DOMContentLoaded", function() {

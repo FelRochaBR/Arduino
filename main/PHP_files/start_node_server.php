@@ -2,7 +2,7 @@
 // start_node_server.php
 
 // Caminho para o script do servidor Node.js
-$nodeScriptPath = 'C:\\xampp\\htdocs\\Arduino\\Arduino\\main\\NODEJS_Files\\main.js';
+$nodeScriptPath = 'C:\\xampp\\htdocs\\0001\\Arduino\\main\\NODEJS_Files\\main.js';
 
 // Comando para iniciar o servidor Node.js
 $command = "start /B node \"$nodeScriptPath\"";
