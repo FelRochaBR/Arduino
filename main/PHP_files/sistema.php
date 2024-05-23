@@ -3,65 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <script type='text/javascript'>
-      google.load('visualization', '1', {packages:['gauge', 'corechart']}); // Adicionado 'corechart'
+      google.load('visualization', '1', {packages:['gauge', 'corechart']});
       google.setOnLoadCallback(drawChart);
+
+      let chart1, data1;
+
       function drawChart() {
-        var data1 = google.visualization.arrayToDataTable([
+        data1 = google.visualization.arrayToDataTable([
           ['Rótulo', 'Valor'],
-          ['Motor', 10],
-          ['N.Água', 10],
-          ['Rede', 68]
-        ]);
-
-        var data2 = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Trabalho',     11],
-          ['Lazer',      2],
-          ['Comer',  2],
-          ['TV', 2],
-          ['Sono',    7]
-        ]);
-
-        var data3 = google.visualization.arrayToDataTable([
-          ['Tempo', 'Trabalho', 'Lazer', 'Comer', 'TV', 'Sono'],
-          ['Segunda', 8, 2, 2, 2, 10],
-          ['Terça', 7, 3, 2, 1, 11],
-          ['Quarta', 8, 2, 3, 1, 10],
-          ['Quinta', 7, 2, 2, 2, 11],
-          ['Sexta', 8, 2, 2, 1, 11],
-          ['Sábado', 9, 1, 1, 2, 11],
-          ['Domingo', 9, 1, 1, 2, 11]
+          ['N.Água', 0],
+          ['Motor', 0],
+          ['Rede', 0]
         ]);
 
         var options1 = {
           width: 400, height: 120,
           redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
+          yellowFrom: 75, yellowTo: 90,
           minorTicks: 5
         };
 
-        var options2 = {
-          title: 'Distribuição do Tempo',
-          pieHole: 0.4,
-        };
-
-        var options3 = {
-          title: 'Uso do Tempo por Dia',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
- 
-        var chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
+        chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
         chart1.draw(data1, options1);
-
-        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
-        chart2.draw(data2, options2);
-
-        var chart3 = new google.visualization.LineChart(document.getElementById('chart_div3'));
-        chart3.draw(data3, options3);
       }
+
+      function updateChart1(value) {
+        data1.setValue(0, 1, value);
+        chart1.draw(data1,options2);
+        chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
+        var options2 = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom: 75, yellowTo: 90,
+          minorTicks: 5
+        };
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const socket = io('http://localhost:3002'); // Adjust if necessary
+
+        socket.on('data', function(data) {
+          console.log(data);
+          updateChart1(parseFloat(data.value));
+        });
+      });
     </script>
     <title>Dashboard</title>
     <style>
@@ -74,16 +62,17 @@
         .dashboard {
             display: flex;
             height: 100vh;
-            width: 80%; /* Aumentei o tamanho do dashboard para acomodar o novo gráfico */
-            position: relative;
         }
         .options {
             width: 200px;
-            background-color:  rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
             padding: 20px;
             border-radius: 10px;
             margin: 20px;
+            height: calc(100vh - 10px);
+            box-sizing: border-box;
+            line-height: 1.5em;
         }
         .options ul {
             list-style-type: none;
@@ -103,13 +92,18 @@
         .options ul li a:hover {
             color: rgb(130, 130, 255);
         }
-        .container {
+        .containers {
+            display: flex;
+            flex-direction: column;
             flex: 1;
-            background-color:  rgba(0, 0, 0, 0.5);
+            margin: 20px;
+        }
+        .container, .container1, .container2 {
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 10px;
-            margin: 20px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -128,7 +122,7 @@
         .button-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 1cm; /* Espaço de 1cm abaixo dos botões */
+            margin-bottom: 20px; /* Espaço de 20px abaixo dos botões */
         }
         .inputSubmit_on, .inputSubmit_off {
             background-color: #2980b9;
@@ -139,12 +133,12 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            margin: 0 0.2cm; 
+            margin: 0 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 40;
+            width: 120px; 
+            border-radius: 90px;
         }
-        .inputSubmit_on
-        {
+        .inputSubmit_on {
             background-color: blue;
         }
         .inputSubmit_off {
@@ -169,24 +163,24 @@
                 <li><a href="introducao.php">Sair</a></li>
             </ul>
         </div>
-        <div class="container">
-            <div class="button-container">
-                <form action="#" method="POST">
-                    <input class="inputSubmit_on" type="submit" name="submit" value="Ligar">
-                </form>
-                <form action="#" method="POST">
-                    <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
-                </form>
+        <div class="containers">
+            <div class="container">
+                <div class="button-container">
+                    <form action="start_node_server.php" method="POST">
+                        <input class="inputSubmit_on" type="submit" name="submit" value="Ligar">
+                    </form>
+                    <form action="stop_node_server.php" method="POST">
+                        <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
+                    </form>
+                </div>
+                <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
             </div>
-            <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
-        </div>
-        <div class="container">
-            <div class="chart" id='chart_div3'></div> <!-- Adicionado o terceiro gráfico -->
-        </div>
-        <div class="container">
-            <form action="#" method="POST">
+            <div class="container1">
+                <div class="chart" id='chart_div3'></div> <!-- Adicionado o terceiro gráfico -->
+            </div>
+            <div class="container2">
                 <div class="chart" id='chart_div2'></div> <!-- Adicionado o segundo gráfico -->
-            </form>
+            </div>
         </div>
     </div>
 </body>
