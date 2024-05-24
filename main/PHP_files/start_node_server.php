@@ -2,7 +2,7 @@
 // start_node_server.php
 
 // Caminho para o script do servidor Node.js
-$nodeScriptPath = 'C:\\xampp\\htdocs\\0001\\Arduino\\main\\NODEJS_Files\\main.js';
+$nodeScriptPath = 'C:\\xampp\\htdocs\\Arduino\\Arduino\\main\\NODEJS_Files\\main.js';
 
 // Comando para iniciar o servidor Node.js
 $command = "start /B node \"$nodeScriptPath\"";
@@ -33,8 +33,8 @@ foreach ($lines as $line) {
 // Verifica se o PID foi encontrado e o salva em um arquivo
 if (is_numeric($pid)) {
     file_put_contents('nodejs_pid.txt', $pid);
-    echo "Node.js server started successfully with PID $pid.";
+    echo "Node.js esta rodando com Sucesso na porta $pid.";
 } else {
-    echo "Failed to start Node.js server or find its PID.";
+    echo "Falhou em iniciar o  Node.js.";
 }
 ?>

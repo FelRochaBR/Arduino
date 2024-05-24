@@ -70,11 +70,11 @@
       }
 
       document.addEventListener("DOMContentLoaded", function() {
-        socket = io('http://localhost:3002'); // Ajuste se necessário
+        socket = io('http://localhost:3000'); // Ajuste se necessário
 
         socket.on('data', function(data) {
           console.log(data);
-          updateChart1(parseFloat(data.Volume));
+          updateChart1(parseFloat(data.value));
         });
 
         document.getElementById('startBtn').addEventListener('click', function(event) {

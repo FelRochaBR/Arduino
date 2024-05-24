@@ -2,7 +2,7 @@
 // stop_node_server.php
 
 // Porta do servidor Node.js
-$port = 3002; // Substitua pela porta correta do seu servidor Node.js
+$port = 3000; // Substitua pela porta correta do seu servidor Node.js
 
 // Endereço do servidor Node.js
 $nodeServerAddress = 'http://localhost:' . $port . '/parar';

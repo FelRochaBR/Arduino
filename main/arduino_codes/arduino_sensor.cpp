@@ -1,13 +1,9 @@
 // Definição dos pinos do sensor ultrassônico
 const int trigPin = 9;    // Pino de trigger do sensor
 const int echoPin = 10;   // Pino de echo do sensor
-
-// Definição dos pinos do LED RGB
 const int redPin = 6;     // Pino do LED RGB (vermelho)
 const int greenPin = 2;   // Pino do LED RGB (verde)
 const int bluePin = 4;    // Pino do LED RGB (azul)
-
-// Definição do pino do relé
 const int relayPin = 8;   // Pino de controle do relé
 
 // Variáveis para armazenar o tempo de ida e volta do pulso ultrassônico
@@ -53,28 +49,26 @@ void loop() {
   // Converte o volume para litros
   float volumeLitros = volumeCm3 / 1000.0;
 
-  // Imprime a distância e o volume na porta serial
-  Serial.print("Distância: ");
+  // Imprime a distância na porta serial
+  
   Serial.print(distance);
-  Serial.print(" cm, Volume: ");
-  Serial.print(volumeLitros);
-  Serial.println(" L");
+  Serial.println("");
 
   // Define as cores com base na altura do líquido
-  if (alturaLiquido >= 17) { // Azul
+  if (distance <= 5) { // Azul
     setColor(0, 0, 255); // R, G, B
-  } else if (alturaLiquido >= 15 && alturaLiquido < 17) { // Verde
+  } else if (distance <= 10) { // Verde
     setColor(0, 255, 0); // R, G, B
-  } else if (alturaLiquido >= 12 && alturaLiquido < 15) { // amarelo
+  } else if (distance <= 15) { // Amarelo
     setColor(255,140,0); // R, G, B
-  } else if (alturaLiquido >= 10 && alturaLiquido < 12) { // laranja
+  } else if (distance <= 20) { // Laranja
     setColor(255,69,0); // R, G, B
-  } else { // Vermelho
+  } else if(distance >= 28) { // Vermelho
     setColor(255, 0, 0); // R, G, B
   }
 
   // Controle do relé baseado na altura do líquido
-  if (alturaLiquido < 10) { // Considerando que a altura menor que 10 cm significa tanque quase vazio
+  if (alturaLiquido > 10) { // Considerando que a altura menor que 10 cm significa tanque quase vazio
     digitalWrite(relayPin, LOW); // Liga o relé
   } else { // Considerando que a altura maior ou igual a 10 cm significa tanque não vazio
     digitalWrite(relayPin, HIGH); // Desliga o relé
