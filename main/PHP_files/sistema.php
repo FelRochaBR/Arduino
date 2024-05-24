@@ -9,7 +9,7 @@
       google.load('visualization', '1', {packages:['gauge', 'corechart']});
       google.setOnLoadCallback(drawChart);
 
-      let chart1, data1;
+      let chart1, data1, options1, socket;
 
       function drawChart() {
         data1 = google.visualization.arrayToDataTable([
@@ -19,12 +19,21 @@
           ['Rede', 0]
         ]);
 
-        var options1 = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom: 75, yellowTo: 90,
-          minorTicks: 5
-        };
+       options1 = {
+        width: 600,
+        height: 300,
+        redFrom: 50,
+        redTo: 100,
+        yellowFrom: 25,
+        yellowTo: 50,
+        greenFrom: 0,
+        greenTo: 25,
+        minorTicks: 5,
+        majorTicks: ['0', '20', '45', '100', '+150'],
+        animation: { duration: 1000, easing: 'out' },
+        colors: ['#00FF00', '#FFA500', '#FF0000'] // Cores correspondentes às faixas
+    };
+
 
         chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
         chart1.draw(data1, options1);
@@ -32,24 +41,78 @@
 
       function updateChart1(value) {
         data1.setValue(0, 1, value);
-        chart1.draw(data1,options2);
-        chart1 = new google.visualization.Gauge(document.getElementById('chart_div1'));
-        var options2 = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom: 75, yellowTo: 90,
-          minorTicks: 5
-        };
+        chart1.draw(data1, options1);
+
+        applyCustomColors(value);
       }
 
+      function applyCustomColors(value) {
+      const colors = {
+          verde: '#00FF00',
+          laranja: '#FFA500',
+          vermelho: '#FF0000'
+      };
+
+      let color;
+      if (value >= 0 && value <= 20) {
+          color = colors.verde;
+      } else if (value > 20 && value <= 45) {
+          color = colors.laranja;
+      } else {
+          color = colors.vermelho;
+      }
+
+      document.querySelectorAll('.google-visualization-gauge .google-visualization-gauge-label text').forEach((label, index) => {
+          if (index === 0) {
+              label.setAttribute('fill', color);
+          }
+      });
+  }
+        
       document.addEventListener("DOMContentLoaded", function() {
-        const socket = io('http://localhost:3002'); // Adjust if necessary
+        socket = io('http://localhost:3002'); // Ajuste se necessário
 
         socket.on('data', function(data) {
           console.log(data);
           updateChart1(parseFloat(data.value));
         });
+
+        document.getElementById('startBtn').addEventListener('click', function(event) {
+          event.preventDefault();
+          sendRequest('start_node_server.php');
+        });
+
+        document.getElementById('stopBtn').addEventListener('click', function(event) {
+          event.preventDefault();
+          sendRequest('stop_node_server.php');
+          socket.disconnect();
+         setTimeout(() => {
+      location.reload();
+    }, 5000);
+        });
       });
+
+      function sendRequest(url) {
+        fetch(url, {
+          method: 'POST'
+        })
+        .then(response => response.text())
+        .then(data => {
+          showNotification(data);
+        })
+        .catch(error => {
+          showNotification('Ocorreu um erro: ' + error);
+        });
+      }
+
+      function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 5000);
+      }
     </script>
     <title>Dashboard</title>
     <style>
@@ -70,7 +133,7 @@
             padding: 20px;
             border-radius: 10px;
             margin: 20px;
-            height: calc(100vh - 10px);
+            height: calc(100vh - 40px);
             box-sizing: border-box;
             line-height: 1.5em;
         }
@@ -108,7 +171,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .container2 {
+          .container2 {
             flex: 2;
             background-color:  rgba(0, 0, 0, 0.5);
             padding: 20px;
@@ -122,7 +185,7 @@
         .button-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px; /* Espaço de 20px abaixo dos botões */
+            margin-bottom: 20px;
         }
         .inputSubmit_on, .inputSubmit_off {
             background-color: #2980b9;
@@ -131,7 +194,6 @@
             color: white;
             font-size: 18px;
             cursor: pointer;
-            border-radius: 5px;
             transition: background-color 0.3s ease;
             margin: 0 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -145,10 +207,25 @@
             background-color: red;
         }
         .inputSubmit_on:hover, .inputSubmit_off:hover {
-            background-color: rgb(130, 130, 255);
+            background-color:rgb(130, 130, 255);
         }
         .chart {
-            margin-top: 20px; /* Espaço entre os gráficos */
+            margin-top: 20px; 
+            width: 100%; 
+            height: 100%; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
         }
     </style>
 </head>
@@ -166,22 +243,19 @@
         <div class="containers">
             <div class="container">
                 <div class="button-container">
-                    <form action="start_node_server.php" method="POST">
-                        <input class="inputSubmit_on" type="submit" name="submit" value="Ligar">
-                    </form>
-                    <form action="stop_node_server.php" method="POST">
-                        <input class="inputSubmit_off" type="submit" name="submit" value="Desligar">
-                    </form>
+                    <button id="startBtn" class="inputSubmit_on">Ligar</button>
+                    <button id="stopBtn" class="inputSubmit_off">Desligar</button>
                 </div>
-                <div class="chart" id='chart_div1'></div> <!-- Adicionado o primeiro gráfico -->
+                <div class="chart" id='chart_div1'></div>
             </div>
             <div class="container1">
-                <div class="chart" id='chart_div3'></div> <!-- Adicionado o terceiro gráfico -->
+                <div class="chart" id='chart_div3'></div>
             </div>
             <div class="container2">
-                <div class="chart" id='chart_div2'></div> <!-- Adicionado o segundo gráfico -->
+                <div class="chart" id='chart_div2'></div>
             </div>
         </div>
     </div>
+    <div id="notification" class="notification"></div>
 </body>
 </html>
