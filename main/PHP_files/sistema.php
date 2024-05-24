@@ -133,7 +133,7 @@
             padding: 20px;
             border-radius: 10px;
             margin: 20px;
-            height: calc(100vh - 40px);
+            height: calc(100vh - 50px);
             box-sizing: border-box;
             line-height: 1.5em;
         }
