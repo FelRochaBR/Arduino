@@ -127,7 +127,7 @@
             height: 100vh;
         }
         .options {
-            width: 200px;
+            width: 220px;
             background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
             padding: 20px;
