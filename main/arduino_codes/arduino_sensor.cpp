@@ -4,12 +4,20 @@ const int echoPin = 10;   // Pino de echo do sensor
 
 // Definição dos pinos do LED RGB
 const int redPin = 6;     // Pino do LED RGB (vermelho)
-const int greenPin = 2 ;   // Pino do LED RGB (verde)
+const int greenPin = 2;   // Pino do LED RGB (verde)
 const int bluePin = 4;    // Pino do LED RGB (azul)
+
+// Definição do pino do relé
+const int relayPin = 8;   // Pino de controle do relé
 
 // Variáveis para armazenar o tempo de ida e volta do pulso ultrassônico
 long duration;
 int distance;
+
+// Dimensões do recipiente
+const float comprimento = 8.5; // cm
+const float alturaTotal = 20.0; // cm
+const float largura = 5.88; // cm, calculada previamente
 
 void setup() {
   Serial.begin(9600);      // Inicialização da comunicação serial
@@ -18,6 +26,8 @@ void setup() {
   pinMode(redPin, OUTPUT); // Configura o pino do LED vermelho como saída
   pinMode(greenPin, OUTPUT);// Configura o pino do LED verde como saída
   pinMode(bluePin, OUTPUT); // Configura o pino do LED azul como saída
+  pinMode(relayPin, OUTPUT); // Configura o pino do relé como saída
+  digitalWrite(relayPin, HIGH); // Inicialmente desliga o relé (assumindo que HIGH desliga o relé)
 }
 
 void loop() {
@@ -34,17 +44,40 @@ void loop() {
   // Calcula a distância em centímetros
   distance = duration * 0.034 / 2;
   
-  // Imprime a distância medida na porta serial
-  Serial.print(distance);
-  Serial.println("cm");
+  // Calcula a altura do líquido no recipiente
+  float alturaLiquido = alturaTotal - distance;
 
-  // Define as cores com base na distância
-  if (distance <= 15) { // Verde
+  // Calcula o volume em cm³
+  float volumeCm3 = comprimento * largura * alturaLiquido;
+
+  // Converte o volume para litros
+  float volumeLitros = volumeCm3 / 1000.0;
+
+  // Imprime a distância e o volume na porta serial
+  Serial.print("Distância: ");
+  Serial.print(distance);
+  Serial.print(" cm, Volume: ");
+  Serial.print(volumeLitros);
+  Serial.println(" L");
+
+  // Define as cores com base na altura do líquido
+  if (alturaLiquido >= 17) { // Azul
+    setColor(0, 0, 255); // R, G, B
+  } else if (alturaLiquido >= 15 && alturaLiquido < 17) { // Verde
     setColor(0, 255, 0); // R, G, B
-  } else if (distance > 15 && distance <= 30) { // Amarelo
-    setColor(255, 255, 0); // R, G, B
+  } else if (alturaLiquido >= 12 && alturaLiquido < 15) { // amarelo
+    setColor(255,140,0); // R, G, B
+  } else if (alturaLiquido >= 10 && alturaLiquido < 12) { // laranja
+    setColor(255,69,0); // R, G, B
   } else { // Vermelho
     setColor(255, 0, 0); // R, G, B
+  }
+
+  // Controle do relé baseado na altura do líquido
+  if (alturaLiquido < 10) { // Considerando que a altura menor que 10 cm significa tanque quase vazio
+    digitalWrite(relayPin, LOW); // Liga o relé
+  } else { // Considerando que a altura maior ou igual a 10 cm significa tanque não vazio
+    digitalWrite(relayPin, HIGH); // Desliga o relé
   }
   
   delay(1000); // Aguarda 1 segundo antes de medir novamente
