@@ -16,7 +16,7 @@
           ['Rótulo', 'Valor'],
           ['N.Água', 0],
           ['Motor', 0],
-          ['Rede', 0]
+        
         ]);
 
        options1 = {
