@@ -135,13 +135,18 @@
             <label for="senha" class="labelInput">Senha</label>
         </div>
         <input class="inputSubmit" type="submit" name="submit" value="Entrar">
+        <?php
+        session_start();
+        if(isset($_SESSION['error_message'])) {
+            echo '<p>' . $_SESSION['error_message'] . '</p>';
+            unset($_SESSION['error_message']);
+        }
+        ?>
     </form>
     
     <a href="recuperar.php" class="parafrase">Problemas em acessar?</a>
     <br>
-    <div class="linha">
-   
-    </div>
+    <div class="linha"></div>
     
     <a href="cadastro.php" class="cadastrar">Cadastrar-se</a>
 </div>

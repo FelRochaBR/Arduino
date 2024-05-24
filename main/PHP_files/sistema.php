@@ -127,15 +127,16 @@
             height: 100vh;
         }
         .options {
-            width: 200px;
+            width: 220px;
             background-color: rgba(0, 0, 0, 0.5);
             color: #fff;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 20px;
             margin: 20px;
-            height: calc(100vh - 40px);
+            height: calc(100vh - 50px);
             box-sizing: border-box;
             line-height: 1.5em;
+            
         }
         .options ul {
             list-style-type: none;
@@ -167,7 +168,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
