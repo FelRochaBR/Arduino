@@ -74,7 +74,7 @@
 
         socket.on('data', function(data) {
           console.log(data);
-          updateChart1(parseFloat(data.value));
+          updateChart1(parseFloat(data.Volume));
         });
 
         document.getElementById('startBtn').addEventListener('click', function(event) {

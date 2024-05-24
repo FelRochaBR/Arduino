@@ -83,7 +83,6 @@ void loop() {
   delay(1000); // Aguarda 1 segundo antes de medir novamente
 }
 
-// Função para definir a cor do LED RGB
 void setColor(int red, int green, int blue) {
   analogWrite(redPin, red);
   analogWrite(greenPin, green);
