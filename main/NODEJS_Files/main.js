@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*", // Permitir todas as origens (ajuste conforme necessário)
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-server.listen(3002, () => {
-  console.log('Servidor iniciado na porta 3002');
+server.listen(3000, () => {
+  console.log('Servidor iniciado na porta 3000');
 });
 
 const readline = require('readline');
@@ -52,12 +52,11 @@ rl.on('line', (line) => {
     } else {
       console.log('Dados gravados com sucesso!');
       inserirDadosDoJson(filename);
-      io.emit('data', data); // Emitir dados para os clientes
+      io.emit('data', data);
     }
   });
 });
 
-// Rota para parar o servidor
 app.get('/parar', (req, res) => {
   console.log('Recebida solicitação para parar o servidor');
   server.close(() => {
