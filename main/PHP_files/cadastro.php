@@ -115,7 +115,7 @@
 <body>
     <a href="introducao.php" class="back-link">Voltar</a>
     <div class="container">
-        <form action="cadastro.php" method="POST">
+        <form action="" method="POST">
             <div class="inputBox">
                 <label for="nome" class="labelInput">Nome completo</label>
                 <input type="text" name="nome" id="nome" class="inputUser" required>
@@ -124,6 +124,16 @@
             <div class="inputBox">
                 <label for="email" class="labelInput">Email</label>
                 <input type="email" name="email" id="email" class="inputUser" required>
+            </div>
+
+            <div class="inputBox">
+                <label for="numero_cel" class="labelInput">Número de Celular</label>
+                <input type="text" name="numero_cel" id="numero_cel" class="inputUser" required>
+            </div>
+
+            <div class="inputBox">
+                <label for="cpf" class="labelInput">CPF</label>
+                <input type="text" name="cpf" id="cpf" class="inputUser" required>
             </div>
             
             <div class="inputBox">
@@ -142,26 +152,63 @@
             <input type="submit" name="submit" id="submit" value="Cadastrar">
         </form>
     </div>
-</body>
-</html>
 
-<?php
+    <script>
+        // Adiciona "55" automaticamente ao número de celular
+        document.getElementById('numero_cel').addEventListener('input', function (e) {
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+
+        // Adiciona máscara ao CPF
+        document.getElementById('cpf').addEventListener('input', function (e) {
+            var cpf = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+            e.target.value = !cpf[2] ? cpf[1] : cpf[1] + '.' + cpf[2] + (cpf[3] ? '.' + cpf[3] : '') + (cpf[4] ? '-' + cpf[4] : '');
+        });
+
+        // Verifica se o e-mail é válido
+        document.getElementById('email').addEventListener('input', function (e) {
+            var email = e.target.value;
+            var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var isValid = regex.test(email);
+            e.target.setCustomValidity(isValid ? '' : 'Digite um e-mail válido');
+        });
+
+        // Adiciona máscara ao número de telefone
+        document.getElementById('numero_cel').addEventListener('input', function (e) {
+            var tel = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !tel[2] ? tel[1] : '(' + tel[1] + ') ' + tel[2] + (tel[3] ? '-' + tel[3] : '');
+        });
+    </script>
+    <?php
 if(isset($_POST['submit'])){
     include_once('config.php');
     $nome = $_POST['nome'];
     $email = $_POST['email'];
+    $numero_cel = $_POST['numero_cel'];
+    $cpf = $_POST['cpf'];
     $senha = $_POST['senha'];
     $cargo = $_POST['cargo'];
-   
-    // Criptografar a senha
-    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-    
-    // Inserir os dados na tabela
-    $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,senha,cargo) 
-    VALUES ('$nome','$email','$senha_hash','$cargo')");
-    
-}
 
+    // Verificar se o email já existe
+    $check_email = mysqli_query($conexao, "SELECT * FROM usuarios WHERE email='$email'");
+    if (mysqli_num_rows($check_email) > 0) {
+        echo "<script>alert('Erro: E-mail já cadastrado!'); window.location.href='cadastro.php';</script>";
+    } else {
+        // Criptografar a senha
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+        // Inserir os dados na tabela
+        $result = mysqli_query($conexao, "INSERT INTO usuarios(nome, email, numero_cel, cpf, senha, cargo) VALUES ('$nome', '$email', '$numero_cel', '$cpf', '$senha_hash', '$cargo')");
+
+        if ($result) {
+            echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href='login_teste.php';</script>";
+        } else {
+            echo "<script>alert('Erro ao cadastrar. Tente novamente.'); window.location.href='cadastro.php';</script>";
+        }
+    }
+}
 ?>
 
-
+</body>
+</html>
