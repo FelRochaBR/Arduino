@@ -6,35 +6,49 @@ let gaugeData;
 let gaugeOptions;
 
 function drawGaugeChart() {
+    // Definir os dados do gráfico
     gaugeData = google.visualization.arrayToDataTable([
         ['Label', 'Value'],
         ['N.Água', 0],
-        ['Motor', 0]
+        
     ]);
 
+    // Definir as opções do gráfico
     gaugeOptions = {
-        width: 300,
-        height: 300,
-        redFrom: 50,
+        width: 220,
+        height: 220,
+        redFrom: 75,
         redTo: 100,
         yellowFrom: 25,
-        yellowTo: 50,
+        yellowTo: 75,
         greenFrom: 0,
         greenTo: 25,
         minorTicks: 5,
-        majorTicks: ['0', '20', '45', '100', '+150'],
-        animation: { duration: 1000, easing: 'out' },
+        majorTicks: ['0', '5', '10', '15', '20', '25', '30'],
+        animation: { duration: 4000, easing: 'out' },
+        // Ajustar as cores conforme necessário
         colors: ['#00FF00', '#FFA500', '#FF0000']
     };
 
+    // Criar o gráfico
     gaugeChart = new google.visualization.Gauge(document.getElementById('chart_div1'));
     gaugeChart.draw(gaugeData, gaugeOptions);
 }
 
+
+
 function updateGaugeChart(value) {
-    gaugeData.setValue(0, 1, value);
+    let num;
+    value = ((value*100)/25)-20;
+    if(value < 0 ){
+        gaugeData.setValue(0, 1, 0);
+    }else{
+        gaugeData.setValue(0, 1, value);
+    }
+    
     gaugeChart.draw(gaugeData, gaugeOptions);
-    applyCustomColors(value);
+    num = 100 - value;
+    applyCustomColors(num);
 }
 
 function applyCustomColors(value) {
@@ -102,7 +116,13 @@ const lineChart = new Chart(ctxLine, {
 
 function updateLineChart(timestamp, value) {
     lineChart.data.labels.push(timestamp);
-    lineChart.data.datasets[0].data.push(value);
+    value = 100  - (value*100)/25
+    if(value < 0){
+    lineChart.data.datasets[0].data.push(0);}
+    else{
+        lineChart.data.datasets[0].data.push(value);
+
+    }
     lineChart.update();
 }
 
