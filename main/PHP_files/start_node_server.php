@@ -35,6 +35,6 @@ if (is_numeric($pid)) {
     file_put_contents('nodejs_pid.txt', $pid);
     echo "Node.js esta rodando com Sucesso na porta $pid.";
 } else {
-    echo "Falhou em iniciar o  Node.js.";
+    echo "Erro ao iniciar o  Node.js.";
 }
 ?>

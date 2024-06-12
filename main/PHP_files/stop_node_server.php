@@ -15,9 +15,9 @@ $response = curl_exec($ch);
 
 // Verifica se a solicitação foi bem-sucedida
 if ($response === false) {
-    echo "Failed to stop Node.js server.";
+    echo "Falha ao parar Node.js server.";
 } else {
-    echo "Node.js server stopped successfully.";
+    echo "Node.js server fechado com sucesso.";
 }
 
 // Fecha a sessão cURL
