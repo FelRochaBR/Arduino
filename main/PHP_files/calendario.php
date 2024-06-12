@@ -23,9 +23,9 @@
             max-width: 455px;
             margin: 20px auto;
             background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
+            border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            font-size: 20px; /* Diminuído o tamanho da fonte */
+            font-size: 25px; /* Diminuído o tamanho da fonte */
             border: 1px solid #ccc;
             position: relative; /* Alterado para relativo */
         }
@@ -61,10 +61,12 @@
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
-            font-size: 14px; /* Diminuído o tamanho da fonte */
+            font-size: 25px; /* Diminuído o tamanho da fonte */
             font-weight: bold;
             color: white;
             border: 1px solid #ccc;
+            border-radius: 10px;
+            
         }
 
         .day span {

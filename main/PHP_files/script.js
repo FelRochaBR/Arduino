@@ -15,8 +15,8 @@ function drawGaugeChart() {
 
     // Definir as opções do gráfico
     gaugeOptions = {
-        width: 220,
-        height: 220,
+        width: 300,
+        height: 300,
         redFrom: 75,
         redTo: 100,
         yellowFrom: 25,

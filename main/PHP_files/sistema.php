@@ -12,21 +12,19 @@
             <ul>
                 <img src="imagens/logo6.png" alt="Logo" class="logo">
                 <li><a href="cadastro.php">Cadastro</a></li>
+                <li><a href="calendario.php">Calendário</a></li>
                 <li><a href="informacao.php">Sobre nós</a></li>
                 <li><a href="introducao.php">Sair</a></li>
             </ul>
         </div>
         <div class="containers">
             <div class="top-row">
-                <div class="container">
+                <div class="container full-width">
                     <div class="button-container">
                         <button id="startBtn" class="inputSubmit_on">Ligar</button>
                         <button id="stopBtn" class="inputSubmit_off">Desligar</button>
                     </div>
                     <div class="chart" id="chart_div1"></div>
-                </div>
-                <div class="container">
-                    <iframe src="calendario.php" frameborder="0" class="iframe-calendar"></iframe>
                 </div>
             </div>
             <div class="bottom-row">
@@ -45,7 +43,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <script src="script.js"></script> <!-- Script JavaScript separado -->
-
  
 </body>
 </html>
@@ -82,12 +79,8 @@
     height: 400px; /* Altura padrão para todos os containers */
 }
 
-.iframe-calendar {
+.full-width {
     width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 20px;
-    background-color: #214661;
 }
 
 .chart {
